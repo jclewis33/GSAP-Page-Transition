@@ -9,18 +9,30 @@ window.Webflow.push(() => {
     let tlAnimateLoad = gsap.timeline({
       ease: "power4.inOut",
       onComplete: () => {
-        gsap.set(".transition_wrapper", { display: "none" });
-      }, // onComplete transition wrapper is set to display none
+        gsap.set(".transition_wrapper", { display: "none" }); // onComplete transition wrapper is set to display none
+        //gsap.set(".transition_logo", { y: "150%" }); // onComplete transition logo is set to y:100%
+      },
     });
 
-    // Animates the transition panes to the right off the screen
-    tlAnimateLoad.to(".transition_wrapper .transition_pane", {
-      duration: 0.4,
-      width: "0%",
-      left: "100%",
-      delay: 0.2,
-      stagger: -0.05,
-    });
+    tlAnimateLoad
+      /*.to(".transition_logo", {
+        y: "0%",
+        duration: 0.2,
+        delay: 0.1,
+        ease: "circ.out",
+      })*/
+      // Animates the transition panes to the right off the screen
+      .to(
+        ".transition_wrapper .transition_pane",
+        {
+          duration: 0.4,
+          width: "0%",
+          left: "100%",
+          delay: 0.2,
+          stagger: -0.05,
+        },
+        "<0.1"
+      );
   }
 
   // Calls animatePageLoad everytime a page page loads
