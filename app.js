@@ -31,7 +31,7 @@ window.Webflow.push(() => {
           delay: 0.2,
           stagger: -0.05,
         },
-        "<0.1"
+        "<"
       );
   }
 
