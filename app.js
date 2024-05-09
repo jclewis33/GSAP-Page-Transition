@@ -4,7 +4,7 @@ window.Webflow ||= [];
 window.Webflow.push(() => {
   //alert("hello world");
 
-  // Begin Page Load Animation
+  ////////////// PAGE LOAD ANIMATION //////////////
 
   //Page Load Animation - Will run everytime a page loads
   function animatePageLoad() {
@@ -26,10 +26,13 @@ window.Webflow.push(() => {
       });
   }
 
-  // Calls animatePageLoad everytime a page page loads (IMPORTANT: set transition_wrapper to display: flex and transition_pane to width: 100% in CSS)
+  // Calls animatePageLoad everytime a page loads
+  // (IMPORTANT: set transition_wrapper to display: flex and transition_pane to width: 100% in CSS)
   animatePageLoad();
 
-  // Page Exit Animation
+  ////////////// PAGE EXIT ANIMATION //////////////
+
+  // pass in targetUrl for onComplete function
   function animatePageExit(targetUrl) {
     // Set the wrapper to be visible
     gsap.set(".transition_wrapper", { display: "flex" });
@@ -63,6 +66,8 @@ window.Webflow.push(() => {
     });
   }
 
+  /////////////// GRAB TARGET LINK URL FUNCTION //////////////
+
   // Add event listeners to links that are not excluded (add classes of links you want to keep from being selected in the parenthesis below)
   const links = document.querySelectorAll(
     "a:not(.excluded-class, .pagination_button, .pagination_text)"
@@ -90,6 +95,8 @@ window.Webflow.push(() => {
       }
     });
   });
+
+  ////////////// HANDLE BACK AND FORWARD BUTTON PRESS //////////////
 
   //Handles Back and Forward Button Events so animation will run when back or forward button is pressed
   window.onpageshow = function (event) {
