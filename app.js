@@ -4,38 +4,29 @@ window.Webflow ||= [];
 window.Webflow.push(() => {
   //alert("hello world");
 
+  // Begin Page Load Animation
+
   //Page Load Animation - Will run everytime a page loads
   function animatePageLoad() {
     let tlAnimateLoad = gsap.timeline({
       ease: "power4.inOut",
       onComplete: () => {
-        gsap.set(".transition_wrapper", { display: "none" }); // onComplete transition wrapper is set to display none
-        //gsap.set(".transition_logo", { y: "150%" }); // onComplete transition logo is set to y:100%
+        gsap.set(".transition_wrapper", { display: "none" }); // onComplete - transition wrapper is set to display none so you can interact with page
       },
     });
 
     tlAnimateLoad
-      /*.to(".transition_logo", {
-        y: "0%",
-        duration: 0.2,
-        delay: 0.1,
-        ease: "circ.out",
-      })*/
       // Animates the transition panes to the right off the screen
-      .to(
-        ".transition_wrapper .transition_pane",
-        {
-          duration: 0.4,
-          width: "0%",
-          left: "100%",
-          delay: 0.2,
-          stagger: -0.05,
-        },
-        "<"
-      );
+      .to(".transition_wrapper .transition_pane", {
+        duration: 0.4,
+        width: "0%",
+        left: "100%",
+        delay: 0.2,
+        stagger: -0.05,
+      });
   }
 
-  // Calls animatePageLoad everytime a page page loads
+  // Calls animatePageLoad everytime a page page loads (IMPORTANT: set transition_wrapper to display: flex and transition_pane to width: 100% in CSS)
   animatePageLoad();
 
   // Page Exit Animation
@@ -72,19 +63,22 @@ window.Webflow.push(() => {
     });
   }
 
-  // Add event listeners to links
-  const links = document.querySelectorAll("a:not(.excluded-class)");
+  // Add event listeners to links that are not excluded (add classes of links you want to keep from being selected in the parenthesis below)
+  const links = document.querySelectorAll(
+    "a:not(.excluded-class, .pagination_button, .pagination_text)"
+  );
 
+  // forEach to select each link, add click eventListener that will grab the href and save it to targetUrl variable to be used later to navigate to the clicked page.
   links.forEach(function (link) {
     link.addEventListener("click", function (e) {
       let targetUrl = this.getAttribute("href"); // grab target Url from clicked link
 
       /*Perform checks on target url:
-      - clicked link is pointing to same website and not external site
-      - is not an anchor link
-      - is not a link that opens in another tab
-      - if all is true, default behavior is prevented until animiation is completed
-      */
+    - clicked link is pointing to same website and not external site
+    - is not an anchor link
+    - is not a link that opens in another tab
+    - if all is true, default behavior is prevented until animatePageExit animiation is completed
+    */
       if (
         this.hostname === window.location.host &&
         !targetUrl.includes("#") &&
@@ -92,16 +86,18 @@ window.Webflow.push(() => {
       ) {
         e.preventDefault(); // Prevent the default link behavior unitl animiation is completed
 
-        animatePageExit(targetUrl); // Execute the exit animation and pass in the targetUrl for the onComplete function
+        animatePageExit(targetUrl); // Execute the exit animation and pass in the targetUrl for the onComplete function inside the animatePageExit animation above
       }
     });
   });
 
-  //Handles Back Button Events
+  //Handles Back and Forward Button Events so animation will run when back or forward button is pressed
   window.onpageshow = function (event) {
     if (event.persisted) window.location.reload();
   };
 });
+
+//End Page Load Animation
 
 /*code to add into webflow project
 <script src="http://localhost:1234/app.js"></script>
